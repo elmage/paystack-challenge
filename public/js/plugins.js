@@ -1,9 +1,3 @@
-/*================================================================================
-  Item Name: Materialize - Material Design Admin Template
-  Version: 5.0
-  Author: PIXINVENT
-  Author URL: https://themeforest.net/user/pixinvent/portfolio
-================================================================================*/
 
 $(function() {
    "use strict";
@@ -379,44 +373,25 @@ $(window).on("resize", function() {
 function resizetable() {
    if($(window).width() < 976){
       if($('.vertical-layout.vertical-gradient-menu .sidenav-dark .brand-logo').length > 0){
-         $('.vertical-layout.vertical-gradient-menu .sidenav-dark .brand-logo img').attr('src','../../../app-assets/images/logo/materialize-logo-color.png');
+         $('.vertical-layout.vertical-gradient-menu .sidenav-dark .brand-logo img').attr('src','/images/logo/logo-color.png');
       }
       if($('.vertical-layout.vertical-dark-menu .sidenav-dark .brand-logo').length > 0){
-         $('.vertical-layout.vertical-dark-menu .sidenav-dark .brand-logo img').attr('src','../../../app-assets/images/logo/materialize-logo-color.png');
+         $('.vertical-layout.vertical-dark-menu .sidenav-dark .brand-logo img').attr('src','../images/logo/logo-color.png');
       }
       if($('.vertical-layout.vertical-modern-menu .sidenav-light .brand-logo').length > 0){
-         $('.vertical-layout.vertical-modern-menu .sidenav-light .brand-logo img').attr('src','../../../app-assets/images/logo/materialize-logo.png');
+         $('.vertical-layout.vertical-modern-menu .sidenav-light .brand-logo img').attr('src','../images/logo/logo.png');
       }
    }
    else{
       if($('.vertical-layout.vertical-gradient-menu .sidenav-dark .brand-logo').length > 0){
-         $('.vertical-layout.vertical-gradient-menu .sidenav-dark .brand-logo img').attr('src','../../../app-assets/images/logo/materialize-logo.png');
+         $('.vertical-layout.vertical-gradient-menu .sidenav-dark .brand-logo img').attr('src','../images/logo/logo.png');
       }
       if($('.vertical-layout.vertical-dark-menu .sidenav-dark .brand-logo').length > 0){
-         $('.vertical-layout.vertical-dark-menu .sidenav-dark .brand-logo img').attr('src','../../../app-assets/images/logo/materialize-logo.png');
+         $('.vertical-layout.vertical-dark-menu .sidenav-dark .brand-logo img').attr('src','../images/logo/logo.png');
       }
       if($('.vertical-layout.vertical-modern-menu .sidenav-light .brand-logo').length > 0){
-         $('.vertical-layout.vertical-modern-menu .sidenav-light .brand-logo img').attr('src','../../../app-assets/images/logo/materialize-logo-color.png');
+         $('.vertical-layout.vertical-modern-menu .sidenav-light .brand-logo img').attr('src','../images/logo/logo-color.png');
       }
    }
 }
 resizetable();
-
-// Add message to chat
-function slide_out_chat() {
-   var message = $(".search").val();
-   if (message != "") {
-      var html =
-         '<li class="collection-item display-flex avatar justify-content-end pl-5 pb-0" data-target="slide-out-chat"><div class="user-content speech-bubble-right">' +
-         '<p class="medium-small">' +
-         message +
-         "</p>" +
-         "</div></li>";
-      $("#right-sidebar-nav #slide-out-chat .chat-body .collection").append(html);
-      $(".search").val("");
-      var charScroll = $("#right-sidebar-nav #slide-out-chat .chat-body .collection");
-      if (charScroll.length > 0){
-         charScroll[0].scrollTop = charScroll[0].scrollHeight;
-      }
-   }
-}
