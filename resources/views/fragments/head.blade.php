@@ -16,12 +16,12 @@
     <!-- BEGIN: Page Level CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/themes/materialize.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/themes/style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/pages/dashboard-modern.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert.css') }}">
     <!-- END: Page Level CSS-->
 
     <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/custom/custom.css') }}">
     @yield('css')
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/custom/custom.css') }}">
     <!-- END: Custom CSS-->
 
 </head>
