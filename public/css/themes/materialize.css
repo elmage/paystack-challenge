@@ -7007,7 +7007,7 @@ button.btn-floating
 .dropdown-content
 {
     position: absolute;
-    z-index: 9999;
+    z-index: 99999;
     top: 0;
     left: 0;
 
@@ -7015,6 +7015,7 @@ button.btn-floating
     overflow-y: auto;
 
     min-width: 100px;
+    max-height: 350px;
     margin: 0;
 
     -webkit-transform-origin: 0 0;

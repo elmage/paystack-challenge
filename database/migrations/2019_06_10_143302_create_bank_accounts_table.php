@@ -21,6 +21,13 @@ class CreateBankAccountsTable extends Migration
             $table->string('currency')->default('NGN');
             $table->string('auth_code')->nullable();
             $table->string('recipient_code')->nullable();
+            $table->unsignedBigInteger('supplier_id');
+            $table->foreign('supplier_id')
+                ->references('id')
+                ->on('suppliers')
+                ->onDelete('cascade');
+
+            $table->boolean('primary')->default(0);
             $table->timestamps();
         });
     }

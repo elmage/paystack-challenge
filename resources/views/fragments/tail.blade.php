@@ -15,7 +15,7 @@
 <!-- BEGIN PAGE LEVEL JS-->
 @yield('page_scripts')
 <script src="{{ asset('js/sweetalert.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/scripts/dashboard-modern.js') }}" type="text/javascript"></script>
+
 {{--<script src="/js/scripts/intro.js" type="text/javascript"></script>--}}
 
 @if(session('error'))

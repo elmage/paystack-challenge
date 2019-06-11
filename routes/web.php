@@ -15,4 +15,10 @@ Route::get('/', 'HomeController@handleRoot');
 
 Auth::routes();
 
+
 Route::get('/dashboard', 'HomeController@index')->name('home');
+Route::get('/suppliers', 'Supplier\SupplierController@index')->name('suppliers');
+Route::get('/suppliers/add', 'Supplier\SupplierController@create')->name('supplier.create');
+Route::get('/supplier/edit/{supplier}', 'Supplier\SupplierController@edit')->name('supplier.edit');
+Route::get('/suppliers/get-suppliers', 'Supplier\SupplierController@getSuppliers');
+Route::post('/supplier/store', 'Supplier\SupplierController@store')->name('supplier.store');

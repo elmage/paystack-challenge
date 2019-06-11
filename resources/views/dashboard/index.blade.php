@@ -219,4 +219,7 @@
     <script src="{{ asset('vendors/chartist-js/chartist-plugin-tooltip.js') }}" type="text/javascript"></script>
     <script src="{{ asset('vendors/chartist-js/chartist-plugin-fill-donut.min.js') }}" type="text/javascript"></script>
 @endsection
+@section('page_scripts')
+    <script src="{{ asset('js/scripts/dashboard-modern.js') }}" type="text/javascript"></script>
+@endsection
 
