@@ -12,7 +12,9 @@ class PaystackApi
 
     protected $endpoints = [
         'bank_list' => '/bank',
-        'create_recipient' => '/transferrecipient'
+        'create_recipient' => '/transferrecipient',
+        'update_recipient' => '/transferrecipient/%s',
+        'resolve_account' => '/bank/resolve?account_number=%s&bank_code=%s'
     ];
 
     protected $base_uri = 'https://api.paystack.co';
@@ -22,6 +24,7 @@ class PaystackApi
         201 => 'Success',
         400 => 'An error occured and the request was not fulfiled',
         404 => 'Request could not be fulfilled as the request resource does not exist.',
+        422 => '',
         500 => 'Internal server error. Seek technical assistance.',
         501 => 'Internal server error. Seek technical assistance.',
         502 => 'Internal server error. Seek technical assistance.',
@@ -67,6 +70,31 @@ class PaystackApi
 
     }
 
+    /**
+     * Resolve account number
+     * @return array
+     */
+    public function resolveAccount($account_number, $bank_code)
+    {
+        $options = [
+            'headers' => $this->headers
+        ];
+
+        try {
+
+            $request = $this->client->get(sprintf($this->endpoints['resolve_account'],$account_number,$bank_code), $options);
+            $response = json_decode($request->getBody()->getContents(), true);
+
+            return $response;
+
+        } catch (RequestException $exception) {
+
+            return $this->StatusCodeHandling($exception);
+
+        }
+
+    }
+
     public function createRecipient(array $data)
     {
         $options = [
@@ -85,6 +113,39 @@ class PaystackApi
         }
     }
 
+    public function updateRecipient($recipient_code, array $data) {
+        $options = [
+            'headers' => $this->headers,
+            'body'    => json_encode($data)
+        ];
+
+        try {
+
+            $request = $this->client->put(sprintf($this->endpoints['update_recipient'],$recipient_code), $options);
+            $response = json_decode($request->getBody()->getContents(), true);
+            return $response;
+
+        } catch (RequestException $exception) {
+            return $this->StatusCodeHandling($exception);
+        }
+    }
+
+    public function deleteRecipient($recipient_code, array $data=[]) {
+        $options = [
+            'headers' => $this->headers,
+            'body'    => json_encode($data)
+        ];
+
+        try {
+
+            $request = $this->client->delete(sprintf($this->endpoints['update_recipient'],$recipient_code), $options);
+            $response = json_decode($request->getBody()->getContents(), true);
+            return $response;
+
+        } catch (RequestException $exception) {
+            return $this->StatusCodeHandling($exception);
+        }
+    }
 
 
 

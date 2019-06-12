@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class BankAccount extends Model
 {
     protected $fillable = [
+        'name',
         'number',
         'bank_code',
         'bank_name',
@@ -15,4 +16,8 @@ class BankAccount extends Model
         'recipient_code',
         'primary'
     ];
+
+    public function supplier() {
+        return $this->belongsTo(Supplier::class);
+    }
 }

@@ -16,6 +16,7 @@ class CreateBankAccountsTable extends Migration
         Schema::create('bank_accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('number')->unique();
+            $table->string('name')->nullable();
             $table->string('bank_code');
             $table->string('bank_name');
             $table->string('currency')->default('NGN');

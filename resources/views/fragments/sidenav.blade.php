@@ -35,14 +35,22 @@
                 </ul>
             </div>
         </li>
-        <li class="bold">
-            <a class="waves-effect waves-cyan " href="app-email.html">
-                <i class="material-icons">mail_outline</i>
-                <span class="menu-title" data-i18n="">Mail</span>
-                <span class="badge new badge pill pink accent-2 float-right mr-10">5</span>
+        <li class="bold{{ !empty($transfer) ? ' active open':'' }}">
+            <a class="collapsible-header waves-effect waves-cyan" href="#">
+                <i class="material-icons">account_balance</i><span class="menu-title" data-i18n="">Send Money</span>
             </a>
-        </li>
 
+            <div class="collapsible-body">
+                <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                    <li class="{{ !empty($transfer) ? 'active':'' }}">
+                        <a class="collapsible-body{{ !empty($transfer) ? ' active':'' }}" href="{{ route('transfer') }}" data-i18n="">
+                            <i class="material-icons">radio_button_unchecked</i>
+                            <span>Single Transfer</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
     </ul>
     <div class="navigation-background"></div>
     <a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>

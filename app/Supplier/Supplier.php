@@ -14,5 +14,5 @@ class Supplier extends Model
     ];
 
     public function main_account() { return $this->hasOne(BankAccount::class)->where('primary',1); }
-    public function accounts() { return $this->hasMany(BankAccount::class); }
+    public function accounts() { return $this->hasMany(BankAccount::class)->orderBy('primary','DESC'); }
 }

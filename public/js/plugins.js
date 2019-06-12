@@ -376,21 +376,21 @@ function resizetable() {
          $('.vertical-layout.vertical-gradient-menu .sidenav-dark .brand-logo img').attr('src','/images/logo/logo-color.png');
       }
       if($('.vertical-layout.vertical-dark-menu .sidenav-dark .brand-logo').length > 0){
-         $('.vertical-layout.vertical-dark-menu .sidenav-dark .brand-logo img').attr('src','../images/logo/logo-color.png');
+         $('.vertical-layout.vertical-dark-menu .sidenav-dark .brand-logo img').attr('src','/images/logo/logo-color.png');
       }
       if($('.vertical-layout.vertical-modern-menu .sidenav-light .brand-logo').length > 0){
-         $('.vertical-layout.vertical-modern-menu .sidenav-light .brand-logo img').attr('src','../images/logo/logo.png');
+         $('.vertical-layout.vertical-modern-menu .sidenav-light .brand-logo img').attr('src','/images/logo/logo.png');
       }
    }
    else{
       if($('.vertical-layout.vertical-gradient-menu .sidenav-dark .brand-logo').length > 0){
-         $('.vertical-layout.vertical-gradient-menu .sidenav-dark .brand-logo img').attr('src','../images/logo/logo.png');
+         $('.vertical-layout.vertical-gradient-menu .sidenav-dark .brand-logo img').attr('src','/images/logo/logo.png');
       }
       if($('.vertical-layout.vertical-dark-menu .sidenav-dark .brand-logo').length > 0){
-         $('.vertical-layout.vertical-dark-menu .sidenav-dark .brand-logo img').attr('src','../images/logo/logo.png');
+         $('.vertical-layout.vertical-dark-menu .sidenav-dark .brand-logo img').attr('src','/images/logo/logo.png');
       }
       if($('.vertical-layout.vertical-modern-menu .sidenav-light .brand-logo').length > 0){
-         $('.vertical-layout.vertical-modern-menu .sidenav-light .brand-logo img').attr('src','../images/logo/logo-color.png');
+         $('.vertical-layout.vertical-modern-menu .sidenav-light .brand-logo img').attr('src','/images/logo/logo-color.png');
       }
    }
 }

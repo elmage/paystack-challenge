@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\AccountNumber;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreSupplier extends FormRequest
+class UpdateSupplier extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,13 +24,11 @@ class StoreSupplier extends FormRequest
     public function rules()
     {
         return [
+            'id'           => 'required|bail|integer|exists:suppliers,id',
             'name'         => 'required|bail|string|max:250',
             'contact_name' => 'nullable|string|max:250',
             'email'        => 'nullable|email|string|max:250',
-            'tel'          => 'nullable|numeric|digits_between:8,14',
-            'bank_code'    => 'required',
-            'account_name'    => 'required|string|max:250',
-            'account_no'   => ['required', new AccountNumber, 'unique:bank_accounts,number']
+            'tel'          => 'nullable|numeric|digits_between:8,14'
         ];
     }
 }

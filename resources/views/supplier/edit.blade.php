@@ -41,9 +41,10 @@
                             <div id="Form-advance" class="card card card-default scrollspy">
                                 <div class="card-content">
                                     <h4 class="card-title">Supplier Info</h4>
-                                    <form class="col s12" action="" method="post">
+                                    <form class="col s12" action="{{ route('supplier.update') }}" method="post">
                                         @csrf
                                         @method('put')
+                                        <input type="hidden" name="id" value="{{ $supplier->id }}">
                                         <div class="row">
                                             <div class="input-field col m7 s12">
                                                 <input id="supplier_name" name="name" value="{{ $supplier->name }}" type="text" required>
@@ -95,59 +96,84 @@
                         <h4 class="header">Supplier Account Info</h4>
                         <p></p>
                         <div class="row">
+                            @foreach($supplier->accounts as $account)
                             <div class="col s12 m4">
                                 <div class="card gradient-45deg-light-blue-cyan">
                                     <div class="card-content white-text center">
-                                        <h6 class="card-title font-weight-400">Apple Watch</h6>
-                                        <p>
-                                            The Apple Watch, <br />
-                                            all time witch will suit any time
-                                        </p>
+                                        <h6 class="card-title font-weight-400">{{ $account->bank_name }}</h6>
+                                        <p><strong>{{ $account->number }}</strong> <br /> <small>{{ $account->currency }}</small></p>
                                     </div>
+
                                     <div class="card-action border-non center">
-                                        <a class="waves-effect waves-light btn gradient-45deg-red-pink box-shadow">$ 299/-</a>
+                                        @if($account->primary)
+                                            <a class="waves-effect waves-notransition">Primary Account</a>
+                                        @else
+                                            <form action="{{ route('supplier.account.primary') }}" method="post" id="make-primary-{{$account->id}}">
+                                                @csrf
+                                                @method('patch')
+                                                <input type="hidden" name="id" value="{{ $account->id }}">
+                                            </form>
+                                            <form action="{{ route('supplier.account.delete') }}" method="post" id="delete-account-{{$account->id}}" onsubmit="return confirmDelete();">
+                                                @csrf
+                                                @method('delete')
+                                                <input type="hidden" name="recipient_code" value="{{ $account->recipient_code }}">
+                                                <input type="hidden" name="id" value="{{ $account->id }}">
+                                            </form>
+                                        <button type="submit" form="make-primary-{{$account->id}}"  class="waves-effect waves-light btn gradient-45deg-green-teal box-shadow">Primary</button>
+                                        <button type="submit" form="delete-account-{{$account->id}}" class="waves-effect waves-light btn gradient-45deg-red-pink box-shadow">Delete</button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
-                            <div class="col s12 m4">
-                                <div class="card blue-grey darken-4">
-                                    <div class="card-content white-text center">
-                                        <span class="card-title blue-grey-text lighten-4 font-weight-400">The Asics Shoes</span>
-                                        <p class="blue-grey-text lighten-4">
-                                            Buy White Shoes for Men <br />
-                                            online Huge selection of White Men
-                                        </p>
-                                    </div>
-                                    <div class="card-action border-non center">
-                                        <a class="waves-effect waves-light btn gradient-45deg-cyan-light-green black-text">$
-                                            159/-</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col s12 m4">
-                                <div class="card gradient-45deg-red-pink">
-                                    <div class="card-content white-text center">
-                                        <h6 class="card-title font-weight-400">iPhone</h6>
-                                        <p>
-                                            The Apple iPhone, <br />
-                                            all time witch will suit any time
-                                        </p>
-                                    </div>
-                                    <div class="card-action border-non center">
-                                        <a class="waves-effect waves-light btn gradient-45deg-blue-indigo box-shadow">
-                                            $ 299/-
-                                        </a>
-                                        <a class="waves-effect waves-light btn gradient-45deg-blue-indigo box-shadow">
-                                            $ 299/-
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
 
                 </div>
 
+            </div>
+        </div>
+        <div class="col s12 m12 l12">
+            <div id="Form-advance" class="card card card-default scrollspy" style="overflow: visible; height: 330px;">
+                <div class="card-content">
+                    <h4 class="card-title">Add account</h4>
+                    <form class="col s12" action="{{ route('supplier.account.create') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="supplier_id" value="{{ $supplier->id }}">
+                        <div class="row">
+                            <div class="input-field col m6 s12">
+                                <select class="resolve_account" id="supplier_bank" name="bank_code" required>
+                                    <option value="" disabled selected>Select Supplier Bank</option>
+                                    @foreach($banks as $bank)
+                                        <option value="{{ $bank['code'] }}">{{ $bank['name'] }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="supplier_bank">Select Supplier Bank</label>
+                            </div>
+                            <div class="input-field col m6 s12">
+                                <input class="resolve_account" id="supplier_account_no" name="account_no" pattern="[0-9]{10}" value="{{ old('account_no') }}" type="text" required>
+                                <label for="supplier_account_no">Supplier Account Number (10 digits)</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input id="resolved_account_name" placeholder="Account Name" type="text" disabled>
+                                </div>
+
+                                <input type="hidden" id="supplier_account_name" value="" name="account_name">
+
+                                <div class="input-field col s12">
+                                    <button class="btn cyan waves-effect waves-light right" id="submit-account-button" type="submit" disabled>Submit
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -156,5 +182,10 @@
 
 @section('page_scripts')
     <script src="{{ asset('js/scripts/form-layouts.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete this account?');
+        }
+    </script>
 @endsection
 

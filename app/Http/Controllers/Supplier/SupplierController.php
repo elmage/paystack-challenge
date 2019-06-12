@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Supplier;
 
 use App\Http\Requests\StoreSupplier;
+use App\Http\Requests\UpdateSupplier;
 use App\Paystack\PaystackApi;
 use App\Supplier\Supplier;
 use Illuminate\Http\Request;
@@ -50,48 +51,55 @@ class SupplierController extends Controller
     {
         $validated = $request->validated();
 
-        $data = [
-            'type' => 'nuban',
-            'name' => $validated['name'],
-            'account_number' => $validated['account_no'],
-            'bank_code' =>$validated['bank_code']
+        //Save supplier
+        $supplier = $supplier->create([
+            'name'=>$validated['name'],
+            'contact_tel'=>$validated['tel'],
+            'contact_name'=>$validated['contact_name'],
+            'email'=>$validated['email']
+        ]);
+
+        $params = [
+            'account_no' => $validated['account_no'],
+            'bank_code' =>$validated['bank_code'],
+            'account_name'=>$validated['account_name']
         ];
 
-        $response = $this->paystackApi->createRecipient($data);
+        $response = (new BankAccountController())->addBankAccount($params,$supplier);
 
-        if ($response['status'] === true) {
+        if ($response['status']===false) { $supplier->delete(); }
 
-            //Save supplier
-            $supplier = $supplier->create([
-                'name'=>$validated['name'],
-                'contact_tel'=>$validated['tel'],
-                'contact_name'=>$validated['contact_name'],
-                'email'=>$validated['email']
-            ]);
+        return redirect()->back()->with($response['status']?'success':'error',$response['message']);
 
-            $data = $response['data'];
-
-            //Save supplier bank detail
-            $supplier->accounts()->create([
-                'number'=>$data['details']['account_number'],
-                'bank_code'=>$data['details']['bank_code'],
-                'bank_name'=>$data['details']['bank_name'],
-                'currency'=>$data['currency'],
-                'auth_code'=>$data['details']['authorization_code'],
-                'recipient_code'=>$data['recipient_code'],
-                'primary'=>1
-            ]);
-
-            return redirect()->route('suppliers')->with('success', 'The supplier details was successfully added!');
-
-        } else {
-            return redirect()->back()->with('error', $response['message']);
-        }
     }
+
 
     public function edit(Supplier $supplier) {
-        return view('supplier.edit', ['supplier'=>$supplier,'suppliers'=>1 /* navigation hack */ ]);
+        return view('supplier.edit', [
+            'supplier'=>$supplier,
+            'banks'=>$this->getBanksFromPaystack(),
+            'suppliers'=>1 /* navigation hack */
+        ]);
     }
+
+    public function updateSupplier(UpdateSupplier $request, Supplier $supplier)
+    {
+        $validated = $request->validated();
+        $supplier = $supplier->find($validated['id']);
+
+        //TODO update recipient name and email on pay stack if there is a change
+
+        $supplier->update([
+            'name' => $validated['name'],
+            'contact_tel' => $validated['tel'],
+            'contact_name' => $validated['contact_name'],
+            'email' => $validated['email'],
+        ]);
+
+        return redirect()->back()->with('success','The Supplier was updated');
+    }
+
+
 
     private function getBanksFromPaystack()
     {

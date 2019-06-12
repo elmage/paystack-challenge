@@ -76,7 +76,7 @@
 
                                         <div class="row">
                                             <div class="input-field col m6 s12">
-                                                <select id="supplier_bank" name="bank_code" required>
+                                                <select class="resolve_account" id="supplier_bank" name="bank_code" required>
                                                     <option value="" disabled selected>Select Supplier Bank</option>
                                                     @foreach($banks as $bank)
                                                         <option value="{{ $bank['code'] }}">{{ $bank['name'] }}</option>
@@ -85,15 +85,21 @@
                                                 <label for="supplier_bank">Select Supplier Bank</label>
                                             </div>
                                             <div class="input-field col m6 s12">
-                                                <input id="supplier_account_no" name="account_no" pattern="[0-9]{10}" value="{{ old('account_no') }}" type="text" required>
+                                                <input class="resolve_account" id="supplier_account_no" name="account_no" pattern="[0-9]{10}" value="{{ old('account_no') }}" type="text" required>
                                                 <label for="supplier_account_no">Supplier Account Number (10 digits)</label>
                                             </div>
                                         </div>
                                         <div class="row">
 
                                             <div class="row">
+                                                <div class="input-field col s6">
+                                                    <input id="resolved_account_name" placeholder="Account Name" type="text" disabled>
+                                                </div>
+
+                                                <input type="hidden" id="supplier_account_name" value="" name="account_name">
+
                                                 <div class="input-field col s12">
-                                                    <button class="btn cyan waves-effect waves-light right" type="submit">Submit
+                                                    <button class="btn cyan waves-effect waves-light right" id="submit-account-button" type="submit" disabled>Submit
                                                         <i class="material-icons right">send</i>
                                                     </button>
                                                 </div>
