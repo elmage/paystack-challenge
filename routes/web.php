@@ -21,7 +21,7 @@ Route::get('/resolve/account/{account}/{bank}', 'Supplier\BankAccountController@
 Route::get('/dashboard', 'HomeController@index')->name('home');
 Route::get('/suppliers', 'Supplier\SupplierController@index')->name('suppliers');
 Route::get('/suppliers/add', 'Supplier\SupplierController@create')->name('supplier.create');
-Route::get('/supplier/edit/{supplier}', 'Supplier\SupplierController@edit')->name('supplier.edit');
+Route::get('/supplier/edit/{supplier}', 'Supplier\SupplierController@edit')->name('supplier.edit')->where('supplier', '[0-9]+');
 Route::get('/suppliers/get-suppliers', 'Supplier\SupplierController@getSuppliers');
 Route::post('/supplier/store', 'Supplier\SupplierController@store')->name('supplier.store');
 Route::put('/supplier/update', 'Supplier\SupplierController@updateSupplier')->name('supplier.update');
@@ -30,5 +30,13 @@ Route::patch('/supplier/account/make-primary', 'Supplier\BankAccountController@m
 Route::delete('/supplier/account/delete', 'Supplier\BankAccountController@delete')->name('supplier.account.delete');
 
 //Transfer Route
-Route::get('/transfer/all', 'Transfer\TransferController@index')->name('transfer');
+Route::get('/transfer/all', 'Transfer\TransferController@index')->name('transfers');
+Route::get('/transfer/single', 'Transfer\TransferController@single')->name('transfer.single');
+Route::post('/transfer/single/make', 'Transfer\TransferController@singleTransfer')->name('transfer.single.make');
+Route::get('/transfer/single/otp/{transfer}', 'Transfer\TransferController@enterOtp')->name('transfer.single.enter_otp')->where('transfer', '[0-9]+');
+Route::post('/transfer/single/otp', 'Transfer\TransferController@sendOtp')->name('transfer.single.send_otp');
+
+Route::get('/transfer/get/accounts/{supplier}', 'Transfer\TransferController@getAccountsForSupplier')->where('supplier', '[0-9]+');
+
+
 //Route::get('/transfer', 'Transfer\TransferController@index')->name('transfer');

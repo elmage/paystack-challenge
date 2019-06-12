@@ -17,6 +17,15 @@ class BankAccount extends Model
         'primary'
     ];
 
+    public function getAccountForSupplier($id)
+    {
+        return $this->where('supplier_id',$id)->orderBy('primary','DESC')->get();
+    }
+
+    public function getAccountByRecipientCode($code) {
+        return $this->with(['supplier'])->where('recipient_code', $code)->first();
+    }
+
     public function supplier() {
         return $this->belongsTo(Supplier::class);
     }

@@ -83,4 +83,31 @@ $(document).ready(function() {
             submit_btn.prop('disabled',true);
         }
     }
+
+
+    $('#select-supplier').on('change', function (e) {
+        let supplier_el = $(this);
+        let account_el = $('#select-supplier-bank');
+
+        console.log(account_el.html(''));
+        
+        let account_el_placeholder = '<option value="" disabled selected>Select Account</option>';
+        
+        if (supplier_el.val() > 0) {
+            account_el.html('<option value="" disabled selected>Loading...</option>');
+            $.get('/transfer/get/accounts/'+supplier_el.val(), function (response) {
+                if (typeof response === 'object' && Array.isArray(response) === false) {
+                    account_el.html('');
+
+                    $.each( response, function( key, value ) {
+                        account_el.append('<option value="'+key+'">'+value+'</option>');
+                    });
+                }
+                else {
+                    account_el.html(account_el_placeholder);
+                }
+            });
+        }
+    });
+
 });

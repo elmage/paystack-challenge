@@ -21,7 +21,7 @@ class SupplierController extends Controller
 
     public function index(Supplier $supplier)
     {
-        return view('supplier.index',['suppliers'=>$supplier->latest()->get()]);
+        return view('supplier.index',['suppliers'=>$supplier->latest()->get(),'all_suppliers'=>1]);
     }
 
     public function getSuppliers(Supplier $supplier)

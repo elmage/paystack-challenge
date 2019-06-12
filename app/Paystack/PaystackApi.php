@@ -14,7 +14,9 @@ class PaystackApi
         'bank_list' => '/bank',
         'create_recipient' => '/transferrecipient',
         'update_recipient' => '/transferrecipient/%s',
-        'resolve_account' => '/bank/resolve?account_number=%s&bank_code=%s'
+        'resolve_account' => '/bank/resolve?account_number=%s&bank_code=%s',
+        'transfer'=>'/transfer',
+        'finalize_transfer'=>'/transfer/finalize_transfer',
     ];
 
     protected $base_uri = 'https://api.paystack.co';
@@ -147,6 +149,46 @@ class PaystackApi
         }
     }
 
+
+
+
+    public function makeSingeTransfer(array $data)
+    {
+        $options = [
+            'headers' => $this->headers,
+            'body'    => json_encode($data)
+        ];
+
+        try {
+            $request = $this->client->post($this->endpoints['transfer'], $options);
+            $response = json_decode($request->getBody()->getContents(), true);
+
+            $response['code'] = $request->getStatusCode();
+
+            return $response;
+
+        } catch (RequestException $exception) {
+            return $this->StatusCodeHandling($exception);
+        }
+    }
+
+    public function sendTransferOTP(array $data) {
+        $options = [
+            'headers' => $this->headers,
+            'body' => json_encode($data)
+        ];
+
+        try {
+
+            $request = $this->client->post($this->endpoints['finalize_transfer'], $options);
+            $response = json_decode($request->getBody()->getContents(), true);
+            return $response;
+
+        } catch (RequestException $exception) {
+            return $this->StatusCodeHandling($exception);
+        }
+
+    }
 
 
 

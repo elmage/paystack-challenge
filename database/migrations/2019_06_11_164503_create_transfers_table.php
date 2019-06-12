@@ -20,10 +20,10 @@ class CreateTransfersTable extends Migration
                 ->references('id')
                 ->on('suppliers')
                 ->onDelete('set null');
-            $table->decimal('total', 13,4);
+            $table->decimal('amount', 13,4);
             $table->string('currency')->default('NGN');
             $table->string('reason')->nullable();
-            $table->text('recipient')->nullable();
+            $table->unsignedBigInteger('account_id')->nullable();
             $table->string('transfer_code')->nullable();
             $table->string('reference')->unique()->nullable();
             $table->string('status')->default('pending');
