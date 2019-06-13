@@ -98,7 +98,7 @@
                         <div class="row">
                             @foreach($supplier->accounts as $account)
                             <div class="col s12 m4">
-                                <div class="card gradient-45deg-light-blue-cyan">
+                                <div class="card gradient-45deg-light-blue-cyan" style="height: 420px">
                                     <div class="card-content white-text center">
                                         <h6 class="card-title font-weight-400">{{ $account->bank_name }}</h6>
                                         <p><strong>{{ $account->number }}</strong> <br /> <small>{{ $account->currency }}</small></p>
@@ -113,15 +113,35 @@
                                                 @method('patch')
                                                 <input type="hidden" name="id" value="{{ $account->id }}">
                                             </form>
+
                                             <form action="{{ route('supplier.account.delete') }}" method="post" id="delete-account-{{$account->id}}" onsubmit="return confirmDelete();">
                                                 @csrf
                                                 @method('delete')
                                                 <input type="hidden" name="recipient_code" value="{{ $account->recipient_code }}">
                                                 <input type="hidden" name="id" value="{{ $account->id }}">
                                             </form>
-                                        <button type="submit" form="make-primary-{{$account->id}}"  class="waves-effect waves-light btn gradient-45deg-green-teal box-shadow">Primary</button>
-                                        <button type="submit" form="delete-account-{{$account->id}}" class="waves-effect waves-light btn gradient-45deg-red-pink box-shadow">Delete</button>
+                                        <div style="padding-top: 20px">
+                                            <button type="submit" form="make-primary-{{$account->id}}"  class="waves-effect waves-light btn-small gradient-45deg-green-teal box-shadow">Primary</button>
+                                            <button type="submit" form="delete-account-{{$account->id}}" class="waves-effect waves-light btn-small gradient-45deg-red-pink box-shadow">Delete</button>
+                                        </div>
                                         @endif
+
+                                        <form action="{{ route('transfer.single.make') }}" method="post" class="col s12" style="position: absolute;top: 110px; left: 0;">
+                                            @csrf
+                                            <div class="row">
+                                                <input type="hidden" name="supplier_id" value="{{ $supplier->id }}">
+                                                <input type="hidden" name="supplier_account" value="{{ $account->recipient_code }}">
+                                                <input type="hidden" name="transfer_note" value="Trans from {{ config('app.name') }}">
+
+                                                <div class="input-field col s12">
+                                                    <input id="transfer-amount-{{$account->id}}" style="color: #ddd;" name="amount" type="number" required>
+                                                    <label style="color: #ddd;" for="transfer-amount-{{$account->id}}">Transfer Amount ({{currency()}})</label>
+                                                </div>
+                                                <div class="input-field col s12">
+                                                    <button type="submit" class="waves-effect waves-light btn-small blue box-shadow">Transfer</button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

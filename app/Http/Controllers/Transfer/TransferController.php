@@ -98,7 +98,7 @@ class TransferController extends Controller
             return redirect()->route('transfers');
         }
 
-        return view('transfer.otp', ['transfer_code'=>$transfer, 'single_transfer'=>1]);
+        return view('transfer.otp', ['transfer'=>$transfer, 'single_transfer'=>1]);
     }
 
     public function sendOtp(TransferOtpRequest $request, Transfer $transfer) {
@@ -106,7 +106,17 @@ class TransferController extends Controller
 
         $response = $this->paystackApi->sendTransferOTP($validated);
 
-        dd($response);
+        if (array_key_exists('data',$response) && $response['data']['status'] === 'success')
+        {
+            $transfer = $transfer->where('reference', $response['data']['reference'])
+                ->first();
+
+            $transfer->update(['status'=>$response['data']['status']]);
+
+            return redirect()->route('transfers')->with('success', 'The transfer was successful.');
+        }
+
+        return redirect()->route('transfers')->with('error', $response['message']);
     }
 
 

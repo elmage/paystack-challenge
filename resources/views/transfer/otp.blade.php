@@ -1,16 +1,6 @@
 @extends('layouts.material')
 @section('title','Enter OTP')
 
-
-@section('css')
-    <style>
-        .dropdown-content
-        {
-            height: 200px;
-        }
-    </style>
-@endsection
-
 @section('content')
     <div class="row">
         <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
@@ -30,7 +20,7 @@
                 </div>
             </div>
         </div>
-        <div class="col s12">
+        <div class="col s12 m8 offset-m2">
             <div class="container">
                 <div class="section section-data-tables">
                     <div class="card">
@@ -43,17 +33,17 @@
 
                     <div class="row">
                         <div class="col s12 m12 l12">
-                            <div id="Form-advance" class="card card card-default scrollspy" style="height: 350px;">
+                            <div id="Form-advance" class="card card card-default scrollspy">
                                 <div class="card-content">
                                     <h4 class="card-title"></h4>
-                                    <form class="col s12" action="" method="post">
+                                    <form class="col s12" action="{{ route('transfer.single.send_otp') }}" method="post">
                                         @csrf
                                         <div class="row">
 
                                             <div class="input-field col m6 s12">
                                                 <input type="hidden" name="transfer_code" value="{{ $transfer->transfer_code }}">
                                                 <input id="otp" name="otp" type="number" required>
-                                                <label for="otp">Enter OTP</label>
+                                                <label for="otp">Enter the otp sent to your phone/email.</label>
                                             </div>
 
                                             <div class="input-field col m6 s12">

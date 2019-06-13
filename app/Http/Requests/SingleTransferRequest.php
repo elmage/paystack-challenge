@@ -14,7 +14,7 @@ class SingleTransferRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->lavel > 1;
+        return Auth::user()->level > 1;
     }
 
     /**

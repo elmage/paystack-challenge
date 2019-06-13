@@ -242,14 +242,22 @@ class PaystackApi
 
     private function StatusCodeHandling(RequestException $exception)
     {
-        $code = $exception->getResponse()->getStatusCode();
+        $code = $exception->getResponse() ? $exception->getResponse()->getStatusCode() : 0;
 
         $response = [
             'status'=>false,
-            'message'=>$this->errorCodes[$code],
             'code'=>$code,
-            'response'=> json_decode($exception->getResponse()->getBody(true)->getContents(), true)
+            'response'=> $exception->getResponse() ? json_decode($exception->getResponse()->getBody(true)->getContents(), true) : null
         ];
+
+        if ($exception->getResponse()) {
+            $exception->getResponse()->getBody()->rewind();
+            $body = json_decode($exception->getResponse()->getBody()->getContents(), true);
+
+            $response['message'] = array_key_exists('message', $body) ? $body['message'] : $this->errorCodes[$code];
+        } else {
+            $response['message'] = 'Connection failed. Check your connection and try again.';
+        }
 
         return $response;
     }
