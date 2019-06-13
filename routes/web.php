@@ -46,4 +46,8 @@ Route::group(['middleware'=>['auth']], function () {
     Route::post('/settings/profile/enable', 'SettingController@enableOtp')->name('otp.enable');
     Route::post('/settings/otp/disable', 'SettingController@disableOtp')->name('otp.disable');
     Route::post('/settings/otp/disable/finalize', 'SettingController@finalizeDisableOtp')->name('otp.disable.finalize');
+
+
+    //Card
+    Route::post('/card/add/{ref}', 'Transfer\CardController@add')->name('card.add');
 });

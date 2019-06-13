@@ -107,7 +107,50 @@
                                             </div>
                                         </div>
                                         <div id="topup" class="col s12 m8 offset-m2 padding-2">
+                                            <p class="center">To top up your Paystack balance, add a card below.</p>
 
+                                            @if($cards->isEmpty())
+                                                <div class="row">
+                                                    <div class="col s12 m6 offset-m3">
+                                                        <form >
+                                                            <script src="https://js.paystack.co/v1/inline.js"></script>
+
+                                                            <a href="#" onclick="payWithPaystack()">
+                                                                <div class="card gradient-45deg-light-blue-cyan" style="height: 200px; border: 1px dashed rgba(0,0,0,0.3)">
+                                                                    <div class="card-content white-text center">
+                                                                        <h6 class="card-title font-weight-400"></h6>
+                                                                        <p><strong></strong> <br /> <small></small></p>
+                                                                    </div>
+
+                                                                    <div class="card-action center">
+                                                                        <p class="" style="margin-top: -20px;">
+                                                                            <i class="material-icons" style="font-size: 50px; color: white;">add_circle_outline</i>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                            <small class="text-info center"><i class="fa fa-info"></i> Adding a card attracts a fee of {{currency()}}50. (Don't panic, the money goes to YOUR paystack balance ;))</small>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <div class="row">
+                                                    @foreach($cards as $card)
+                                                    <div class="col s12 m6">
+                                                        <div class="card gradient-45deg-light-blue-cyan" style="height: 200px; border: 1px dashed rgba(0,0,0,0.3)">
+                                                            <div class="card-content white-text center">
+                                                                <h6 class="card-title font-weight-400"></h6>
+                                                                <p><strong></strong> <br /> <small></small></p>
+                                                            </div>
+
+                                                            <div class="card-action ">
+                                                                <h6 class="" style="margin-top: -15px;font-size: 20px;color: #ddd;">{{$card->bin}}******{{ $card->last_4 }}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                            @endif
                                         </div>
 
                                     </div>
@@ -119,4 +162,44 @@
             </div>
         </div>
     </div>
+@endsection
+
+
+@section('page_scripts')
+    <script>
+        function payWithPaystack() {
+            var handler = PaystackPop.setup({
+                key: '{{ env('PAYSTACK_PK') }}',
+                email: '{{ Auth::user()->email  }}',
+                amount: {{ 5000 }},
+                currency: "NGN",
+                metadata: {
+                    custom_fields: [
+                        {
+                            display_name: "{{ Auth::user()->name  }}",
+                        }
+                    ]
+                },
+                callback: function(response) {
+                    console.log(response);
+                    if ("success" === response.status)
+                    {
+                        $.post('/card/add/' + response.reference, {_token:'{{csrf_token()}}'}, function (response) {
+                            if (response.state==='success') {
+                                window.location.reload(true);
+                            }
+                            else { swal('Error!', response.msg, 'error'); }
+                        });
+                    } else {
+                        swal('Error!', 'Failed to add card!', 'error');
+                    }
+
+                },
+                onClose: function(){
+                    //showToast('Transaction ended');
+                }
+            });
+            handler.openIframe();
+        }
+    </script>
 @endsection

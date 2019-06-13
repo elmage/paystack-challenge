@@ -20,6 +20,7 @@ class PaystackApi
         'enable_otp'=>'/transfer/enable_otp',
         'disable_otp'=>'/transfer/disable_otp',
         'finalize_disable_otp'=>'/transfer/disable_otp_finalize',
+        'verify_transaction'=>'/transaction/verify/%s'
     ];
 
     protected $base_uri = 'https://api.paystack.co';
@@ -238,6 +239,20 @@ class PaystackApi
         }
     }
 
+
+    public function verifyTransaction($ref) {
+        $options = [
+            'headers' => $this->headers
+        ];
+
+        try {
+            $request = $this->client->get(sprintf($this->endpoints['verify_transaction'],$ref), $options);
+            $response = json_decode($request->getBody()->getContents());
+            return $response;
+        } catch (RequestException $exception) {
+            return $this->StatusCodeHandling($exception);
+        }
+    }
 
 
     private function StatusCodeHandling(RequestException $exception)
