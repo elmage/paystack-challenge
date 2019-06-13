@@ -15,6 +15,14 @@ class CreateSchedulesTable extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('account_id');
+            $table->decimal('amount', 13, 4);
+            $table->string('reason')->nullable();
+            $table->string('frequency');
+            $table->date('last_run')->nullable();
+            $table->date('start');
+            $table->date('end');
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }
