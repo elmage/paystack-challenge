@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\AccountNumber;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreSupplier extends FormRequest
 {
@@ -14,7 +15,7 @@ class StoreSupplier extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Auth::user()->lavel > 1;
     }
 
     /**

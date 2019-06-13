@@ -110,4 +110,8 @@ $(document).ready(function() {
         }
     });
 
+
+
+    $('#settings-tab').tabs();
+
 });

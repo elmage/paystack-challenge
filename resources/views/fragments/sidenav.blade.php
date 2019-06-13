@@ -57,6 +57,12 @@
                 </ul>
             </div>
         </li>
+        <li class="bold{{ isset($settings)  ? ' active open':'' }}">
+            <a class="waves-effect waves-cyan{{ isset($settings)  ? ' active open':'' }}" href="{{ route('settings') }}">
+                <i class="material-icons">settings</i>
+                <span class="menu-title" data-i18n="">Settings</span>
+            </a>
+        </li>
     </ul>
     <div class="navigation-background"></div>
     <a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>

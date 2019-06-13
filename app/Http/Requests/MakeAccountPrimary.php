@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class MakeAccountPrimary extends FormRequest
 {
@@ -13,7 +14,7 @@ class MakeAccountPrimary extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Auth::user()->lavel > 1;
     }
 
     /**

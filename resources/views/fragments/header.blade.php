@@ -37,13 +37,14 @@
                 </ul>
                 <!-- profile-dropdown-->
                 <ul class="dropdown-content" id="profile-dropdown">
-                    <li><a class="grey-text text-darken-1" href="user-profile-page.html"><i class="material-icons">person_outline</i> Profile</a></li>
-                    <li><a class="grey-text text-darken-1" href="app-chat.html"><i class="material-icons">chat_bubble_outline</i> Chat</a></li>
-                    <li><a class="grey-text text-darken-1" href="page-faq.html"><i class="material-icons">help_outline</i> Help</a></li>
+                    <li><a class="grey-text text-darken-1" href="{{ route('settings') }}"><i class="material-icons">person_outline</i> Profile</a></li>
                     <li class="divider"></li>
-                    <li><a class="grey-text text-darken-1" href="user-lock-screen.html"><i class="material-icons">lock_outline</i> Lock</a></li>
-                    <li><a class="grey-text text-darken-1" href="user-login.html"><i class="material-icons">keyboard_tab</i> Logout</a></li>
+                    <li><a class="grey-text text-darken-1" href="#!"><i class="material-icons">lock_outline</i> Lock</a></li>
+                    <li><a type="submit" href="#!" onclick="document.getElementById('global-logout').submit()" class="grey-text text-darken-1"><i class="material-icons">keyboard_tab</i> Logout</a></li>
                 </ul>
+                <form action="{{ url('/logout') }}" method="post" id="global-logout">
+                    @csrf
+                </form>
             </div>
             <nav class="display-none search-sm">
                 <div class="nav-wrapper">

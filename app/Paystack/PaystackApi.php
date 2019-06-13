@@ -17,6 +17,9 @@ class PaystackApi
         'resolve_account' => '/bank/resolve?account_number=%s&bank_code=%s',
         'transfer'=>'/transfer',
         'finalize_transfer'=>'/transfer/finalize_transfer',
+        'enable_otp'=>'/transfer/enable_otp',
+        'disable_otp'=>'/transfer/disable_otp',
+        'finalize_disable_otp'=>'/transfer/disable_otp_finalize',
     ];
 
     protected $base_uri = 'https://api.paystack.co';
@@ -188,6 +191,51 @@ class PaystackApi
             return $this->StatusCodeHandling($exception);
         }
 
+    }
+
+
+    public function enableOtp() {
+        $options = [
+            'headers' => $this->headers,
+        ];
+
+        try {
+            $request = $this->client->post($this->endpoints['enable_otp'], $options);
+            $response = json_decode($request->getBody()->getContents(), true);
+            return $response;
+        } catch (RequestException $exception) {
+            return $this->StatusCodeHandling($exception);
+        }
+    }
+
+
+    public function disableOtp() {
+        $options = [
+            'headers' => $this->headers,
+        ];
+
+        try {
+            $request = $this->client->post($this->endpoints['disable_otp'], $options);
+            $response = json_decode($request->getBody()->getContents(), true);
+            return $response;
+        } catch (RequestException $exception) {
+            return $this->StatusCodeHandling($exception);
+        }
+    }
+
+    public function finalizeDisableOtp(array $data) {
+        $options = [
+            'headers' => $this->headers,
+            'body' => json_encode($data)
+        ];
+
+        try {
+            $request = $this->client->post($this->endpoints['finalize_disable_otp'], $options);
+            $response = json_decode($request->getBody()->getContents(), true);
+            return $response;
+        } catch (RequestException $exception) {
+            return $this->StatusCodeHandling($exception);
+        }
     }
 
 
