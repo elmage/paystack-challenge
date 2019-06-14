@@ -6,6 +6,7 @@ use App\Paystack\PaystackApi;
 use App\Transfer\Card;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class CardController extends Controller
 {
@@ -44,7 +45,8 @@ class CardController extends Controller
                 'exp_month'=>$authorization->exp_month,
                 'exp_year'=>$authorization->exp_year,
                 'auth_code'=>$authorization->authorization_code,
-                'primary'=>1
+                'primary'=>1,
+                'email'=>Auth::user()->email
             ]);
 
             return response()->json(['state'=>'success','msg'=>'Card added successfully.']);

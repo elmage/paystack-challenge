@@ -22,6 +22,13 @@ function balance() {
     });
 }
 
+function raw_balance() {
+    return \Illuminate\Support\Facades\Cache::remember('raw_balance', 60, function () {
+        $response = (new App\Paystack\PaystackApi)->getBalance();
+        return $response['data'][0]['balance']/100;
+    });
+}
+
 function formatted_balance() {
     $balance = balance();
 
@@ -34,4 +41,11 @@ function formatted_balance() {
     } else {
         return currency().number_format($balance);
     }
+}
+
+function auto_topup()
+{
+    return \Illuminate\Support\Facades\Cache::rememberForever('auto_topup', function () {
+        return false;
+    });
 }

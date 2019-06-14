@@ -14,6 +14,7 @@ class Card extends Model
         'exp_month',
         'exp_year',
         'auth_code',
-        'primary'
+        'primary',
+        'email'
     ];
 }

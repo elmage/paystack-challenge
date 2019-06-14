@@ -21,6 +21,7 @@ class CreateCardsTable extends Migration
             $table->unsignedInteger('exp_month');
             $table->unsignedInteger('exp_year');
             $table->string('auth_code')->nullable();
+            $table->string('email');
             $table->tinyInteger('primary')->default(0);
             $table->timestamps();
         });

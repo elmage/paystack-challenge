@@ -1,6 +1,8 @@
 $(document).ready(function() {
     "use strict";
 
+    var _token = $('meta[name="_token"]').attr('content');
+
     let suppliers = $('#supplier-list');
 
     if (suppliers.length) {
@@ -111,7 +113,21 @@ $(document).ready(function() {
     });
 
 
-
     $('#settings-tab').tabs();
 
+
+    $('#auto-topup-switch').on('change', function () {
+        $.post('/settings/auto-topup',{_token:_token},function (response) {
+            let msg;
+            if ( response.auto_topup ) {
+                msg = "Auto topup was enabled";
+            } else {
+                msg = "Auto topup was disabled";
+            }
+
+            M.toast({
+                html: msg
+            })
+        });
+    });
 });

@@ -21,9 +21,12 @@ class SettingController extends Controller
         $this->paystackApi = new PaystackApi;
     }
 
-    public function index() {
-        $otp_status = Cache::rememberForever('otp_status', function () { return 1; });
-        return view('settings.index', ['settings'=>1]);
+    public function index()
+    {
+        $otp_status = Cache::rememberForever('otp_status', function () {
+            return 1;
+        });
+        return view('settings.index', ['settings' => 1]);
     }
 
     public function enableOtp()
@@ -31,53 +34,73 @@ class SettingController extends Controller
         $response = $this->paystackApi->enableOtp();
 
         Cache::pull('otp_status');
-        Cache::rememberForever('otp_status', function () { return 1; });
+        Cache::rememberForever('otp_status', function () {
+            return 1;
+        });
 
-        return redirect()->back()->with(['success' => $response['message'], 'preference'=>1]);
+        return redirect()->back()->with(['success' => $response['message'], 'preference' => 1]);
     }
 
-    public function disableOtp() {
+    public function disableOtp()
+    {
         $response = $this->paystackApi->disableOtp();
 
         if (strpos($response['message'], 'already disabled') !== false) {
             Cache::pull('otp_status');
-            Cache::rememberForever('otp_status', function () { return 0; });
+            Cache::rememberForever('otp_status', function () {
+                return 0;
+            });
 
-            return redirect()->back()->with(['success' => $response['message'], 'preference'=>1]);
+            return redirect()->back()->with(['success' => $response['message'], 'preference' => 1]);
         } else {
-            return redirect()->back()->with(['finalize_otp'=> 1, 'preference'=>1]);
+            return redirect()->back()->with(['finalize_otp' => 1, 'preference' => 1]);
         }
     }
 
-    public function finalizeDisableOtp(FinalizeDisableOtpRequest $request) {
+    public function finalizeDisableOtp(FinalizeDisableOtpRequest $request)
+    {
         $response = $this->paystackApi->finalizeDisableOtp($request->validated());
 
         if (strpos($response['message'], 'has been disabled') !== false) {
             Cache::pull('otp_status');
-            Cache::rememberForever('otp_status', function () { return 0; });
+            Cache::rememberForever('otp_status', function () {
+                return 0;
+            });
 
-            return redirect()->back()->with(['success' => $response['message'], 'preference'=>1]);
+            return redirect()->back()->with(['success' => $response['message'], 'preference' => 1]);
         }
 
-        return redirect()->back()->with(['error' => $response['message'], 'preference'=>1]);
+        return redirect()->back()->with(['error' => $response['message'], 'preference' => 1]);
     }
 
-    public function updateProfile(UpdateProfileRequest $request) {
+    public function updateProfile(UpdateProfileRequest $request)
+    {
         $request->user()->update($request->validated());
 
-        return redirect()->back()->with('success','Your profile was updated');
+        return redirect()->back()->with('success', 'Your profile was updated');
     }
 
     public function updatePassword(ChangePasswordRequest $request)
     {
         $validated = $request->validated();
 
-        if (Hash::check($validated['current_password'],Auth::user()->password))
-        {
-            Auth::user()->update(['password'=>bcrypt($validated['password'])]);
-            return redirect()->back()->with('success','Your password was changed.');
+        if (Hash::check($validated['current_password'], Auth::user()->password)) {
+            Auth::user()->update(['password' => bcrypt($validated['password'])]);
+            return redirect()->back()->with('success', 'Your password was changed.');
         }
 
-        return redirect()->back()->with('error','You entered an incorrect password');
+        return redirect()->back()->with('error', 'You entered an incorrect password');
+    }
+
+    public function toggleTopup()
+    {
+        $auto_topup = auto_topup();
+
+        Cache::forget('auto_topup');
+        Cache::rememberForever('auto_topup', function () use ($auto_topup) {
+            return !$auto_topup;
+        });
+
+        return response()->json(['auto_topup' => auto_topup()]);
     }
 }

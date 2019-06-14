@@ -72,9 +72,9 @@
                                         <div id="preferences" class="col s12 m8 offset-m2 padding-2">
                                             <div class="row">
                                                 <div class="col s4">
-                                                    <p><strong>Transfer Confirmation</strong></p>
+                                                    <p><strong>Transfer Confirmation (OTP)</strong></p>
                                                 </div>
-                                                <div class="col s8">
+                                                <div class="col s8 center">
                                                     @if(session('finalize_otp') )
                                                         <form class="col s12 m10 offset-m1" action="{{ route('otp.disable.finalize') }}" method="post">
                                                             @csrf
@@ -99,10 +99,26 @@
                                                         @else
                                                             <form action="{{ route('otp.enable') }}" method="post">
                                                                 @csrf
-                                                                <button class="btn-small green waves-effect waves-light">Enable</button>
+                                                                <button type="submit" class="btn-small green waves-effect waves-light">Enable</button>
                                                             </form>
                                                         @endif
                                                     @endif
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div class="row" style="margin-top: 20px;">
+                                                <div class="col s4">
+                                                    <p><strong>Allow automatic topups when your balance is insufficient for a scheduled transfer?</strong></p>
+                                                </div>
+                                                <div class="col s8 center">
+                                                    <div class="switch">
+                                                        <label>
+                                                            Off
+                                                            <input id="auto-topup-switch" type="checkbox"{{ auto_topup() ? ' checked':'' }}>
+                                                            <span class="lever"></span>
+                                                            On
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

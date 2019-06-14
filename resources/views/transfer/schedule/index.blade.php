@@ -64,7 +64,7 @@
                                             <div class="input-field col m6 s12">
                                                 <select id="select-frequency" name="frequency" required>
                                                     <option value="" disabled selected>Select Frequency</option>
-                                                    <option value="once">Once</option>
+                                                    {{--<option value="once">Once</option>--}}
                                                     <option value="daily">Daily</option>
                                                     <option value="weekly">Weekly</option>
                                                     <option value="fortnightly">Fortnightly</option>
@@ -99,7 +99,7 @@
 
                                         <div class="row">
                                             <div class="input-field col s12">
-                                                <small class="text-muted"></small>
+                                                <small class="text-muted left">Note: Transfers will be made to the primary account of the supplier.</small>
                                                 <button class="btn cyan waves-effect waves-light right" id="submit-account-button" type="submit">Schedule Transfer
                                                     <i class="material-icons right">send</i>
                                                 </button>
@@ -115,6 +115,7 @@
                                     <h4 class="card-title">Schedules - {{ $schedules->total() }}</h4>
                                     <div class="row">
                                         <div class="col s12">
+
                                         </div>
                                         <div class="col s12">
                                             @if(cache('otp_status') == 0)

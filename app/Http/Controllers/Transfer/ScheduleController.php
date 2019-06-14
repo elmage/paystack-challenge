@@ -32,9 +32,14 @@ class ScheduleController extends Controller
             return redirect()->back()->with('error','The end date has to be later than the start date');
         }
 
-        if ($start < now())
+        if ($start < now()->toDateString())
         {
             return redirect()->back()->with('error','The start date must be later than now.');
+        }
+
+        if ($validated['frequency'] === 'once')
+        {
+            $validated['end'] = $validated['start'];
         }
 
         $schedule = $schedule->create($validated);
@@ -47,7 +52,10 @@ class ScheduleController extends Controller
         $validated = $request->validated();
         $schedule = $schedule->find($validated['id']);
 
-        $schedule->update(['status' => ! $schedule->status]);
+        $schedule->update([
+            'status' => ! $schedule->status,
+            'start' => $schedule->status == 0 ? now() : $schedule->end
+        ]);
 
         return redirect()->back()->with('success', 'The transfer scheduled status was changed successfully.');
     }
@@ -59,4 +67,5 @@ class ScheduleController extends Controller
 
         return redirect()->back()->with('success', 'The transfer scheduled was deleted successfully.');
     }
+
 }

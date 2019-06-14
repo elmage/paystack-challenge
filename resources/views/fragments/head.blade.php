@@ -8,6 +8,7 @@
     <link rel="apple-touch-icon" href="{{ asset('images/favicon/apple-touch-icon.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/favicon/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="_token" content="{{csrf_token()}}" />
 
     <!-- BEGIN: VENDOR CSS-->
     @yield('vendor_css')

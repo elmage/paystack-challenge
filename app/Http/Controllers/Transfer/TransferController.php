@@ -6,6 +6,7 @@ use App\Http\Requests\ResendOtpRequest;
 use App\Http\Requests\SingleTransferRequest;
 use App\Http\Requests\TopupRequest;
 use App\Http\Requests\TransferOtpRequest;
+use App\Jobs\ProcessScheduledTransfers;
 use App\Paystack\PaystackApi;
 use App\Supplier\BankAccount;
 use App\Supplier\Supplier;
@@ -28,6 +29,8 @@ class TransferController extends Controller
 
     public function index(Transfer $transfer)
     {
+        $this->dispatch(new ProcessScheduledTransfers('fortnightly'));
+        $this->dispatch(new ProcessScheduledTransfers('monthly'));
         return view('transfer.index', ['transfers' => $transfer->filter()]);
     }
 

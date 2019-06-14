@@ -15,6 +15,7 @@ class Schedule extends Model
         'status',
         'start',
         'end',
+        'last_run',
         'frequency',
     ];
 

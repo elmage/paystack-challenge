@@ -24,7 +24,6 @@
                 <ul class="dropdown-content" id="profile-dropdown">
                     <li><a class="grey-text text-darken-1" href="{{ route('settings') }}"><i class="material-icons">person_outline</i> Profile</a></li>
                     <li class="divider"></li>
-                    <li><a class="grey-text text-darken-1" href="#!"><i class="material-icons">lock_outline</i> Lock</a></li>
                     <li><a type="submit" href="#!" onclick="document.getElementById('global-logout').submit()" class="grey-text text-darken-1"><i class="material-icons">keyboard_tab</i> Logout</a></li>
                 </ul>
 
