@@ -2,6 +2,7 @@
 
 namespace App\Transfer;
 
+use App\Jobs\ProcessScheduledTransfers;
 use App\Supplier\BankAccount;
 use App\Supplier\Supplier;
 use Illuminate\Database\Eloquent\Model;
@@ -18,8 +19,6 @@ class Transfer extends Model
         'reference',
         'status'
     ];
-
-
 
     public function filter()
     {
@@ -51,5 +50,16 @@ class Transfer extends Model
         if ($this->where('reference', $string)->exists()) { $this->generateRef($length+1); }
 
         return $string;
+    }
+
+    public function scheduleTransfer()
+    {
+        $frequencies = [
+            'daily', 'weekly', 'fortnightly','monthly'
+        ];
+
+        foreach ($frequencies as $frequency) {
+            dispatch(new ProcessScheduledTransfers($frequencies));
+        }
     }
 }
