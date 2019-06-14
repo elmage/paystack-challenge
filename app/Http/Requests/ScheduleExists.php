@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\AccountNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class AddSupplierBankAccount extends FormRequest
+class ScheduleExists extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +25,7 @@ class AddSupplierBankAccount extends FormRequest
     public function rules()
     {
         return [
-            'supplier_id'    => 'required|bail|integer|exists:suppliers,id',
-            'bank_code'    => 'required',
-            'account_no'   => ['required', new AccountNumber, 'unique:bank_accounts,number'],
-            'account_name'    => 'required|string|max:250',
+            'id'=>'required|integer|exists:schedules,id'
         ];
     }
 }

@@ -35,7 +35,7 @@
                 </ul>
             </div>
         </li>
-        <li class="bold{{ isset($transfers) || isset($single_transfer) || isset($topup) ? ' active open':'' }}">
+        <li class="bold{{ isset($transfers) || isset($single_transfer) || isset($topup) || isset($schedules) ? ' active open':'' }}">
             <a class="collapsible-header waves-effect waves-cyan" href="#">
                 <i class="material-icons">account_balance</i><span class="menu-title" data-i18n="">Send Money</span>
             </a>
@@ -60,8 +60,8 @@
                             <span>Balance Topup</span>
                         </a>
                     </li>
-                    <li class="">
-                        <a class="collapsible-body" href="" data-i18n="">
+                    <li class="{{ isset($schedules) ? 'active':'' }}">
+                        <a class="collapsible-body{{ isset($schedules) ? ' active':'' }}" href="{{ route('transfer.schedules') }}" data-i18n="">
                             <i class="material-icons">radio_button_unchecked</i>
                             <span>Schedule Transfer</span>
                         </a>

@@ -53,7 +53,7 @@
                                                 <label for="transfer_amount">Amount ({{ currency() }})</label>
                                             </div>
                                             <div class="input-field col m6 s12">
-                                                <input id="transfer_note" name="transfer_note" value="" type="text" required>
+                                                <input id="transfer_note" name="transfer_note" value="" type="text">
                                                 <label for="transfer_note">Transfer Note (optional)</label>
                                             </div>
                                         </div>

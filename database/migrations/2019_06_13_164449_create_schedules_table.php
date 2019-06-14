@@ -15,7 +15,7 @@ class CreateSchedulesTable extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('account_id');
+            $table->unsignedBigInteger('supplier_id');
             $table->decimal('amount', 13, 4);
             $table->string('reason')->nullable();
             $table->string('frequency');
