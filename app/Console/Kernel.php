@@ -28,10 +28,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
-        $schedule->job(new ProcessScheduledTransfers('once'))->twiceDaily(9, 6);
-        $schedule->job(new ProcessScheduledTransfers('daily'))->twiceDaily(10, 5);
-        $schedule->job(new ProcessScheduledTransfers('weekly'))->twiceDaily(11, 4);
-        $schedule->job(new ProcessScheduledTransfers('fortnightly'))->twiceDaily(10, 3);
+        $schedule->job(new ProcessScheduledTransfers('daily'))->twiceDaily(9, 5);
+        $schedule->job(new ProcessScheduledTransfers('weekly'))->twiceDaily(8, 4);
+        $schedule->job(new ProcessScheduledTransfers('fortnightly'))->twiceDaily(9, 4);
         $schedule->job(new ProcessScheduledTransfers('monthly'))->twiceDaily(9, 5);
     }
 
