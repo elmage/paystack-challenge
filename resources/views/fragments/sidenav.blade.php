@@ -35,7 +35,7 @@
                 </ul>
             </div>
         </li>
-        <li class="bold{{ isset($transfers) || isset($single_transfer) ? ' active open':'' }}">
+        <li class="bold{{ isset($transfers) || isset($single_transfer) || isset($topup) ? ' active open':'' }}">
             <a class="collapsible-header waves-effect waves-cyan" href="#">
                 <i class="material-icons">account_balance</i><span class="menu-title" data-i18n="">Send Money</span>
             </a>
@@ -52,6 +52,18 @@
                         <a class="collapsible-body{{ isset($single_transfer) ? ' active':'' }}" href="{{ route('transfer.single') }}" data-i18n="">
                             <i class="material-icons">radio_button_unchecked</i>
                             <span>Single Transfer</span>
+                        </a>
+                    </li>
+                    <li class="{{ isset($topup) ? 'active':'' }}">
+                        <a class="collapsible-body{{ isset($topup) ? ' active':'' }}" href="{{ route('transfer.topup') }}" data-i18n="">
+                            <i class="material-icons">radio_button_unchecked</i>
+                            <span>Balance Topup</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a class="collapsible-body" href="" data-i18n="">
+                            <i class="material-icons">radio_button_unchecked</i>
+                            <span>Schedule Transfer</span>
                         </a>
                     </li>
                 </ul>

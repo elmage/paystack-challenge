@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\Transfer;
 
+use App\Http\Requests\ResendOtpRequest;
 use App\Http\Requests\SingleTransferRequest;
+use App\Http\Requests\TopupRequest;
 use App\Http\Requests\TransferOtpRequest;
 use App\Paystack\PaystackApi;
 use App\Supplier\BankAccount;
 use App\Supplier\Supplier;
+use App\Transfer\Card;
 use App\Transfer\Transfer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class TransferController extends Controller
 {
@@ -117,6 +122,39 @@ class TransferController extends Controller
         }
 
         return redirect()->route('transfers')->with('error', $response['message']);
+    }
+
+    public function resendOtp(ResendOtpRequest $request)
+    {
+        $validated = $request->validated();
+        return response()->json($this->paystackApi->resendTransferOtp($validated));
+    }
+
+    public function topup() {
+        $cards = (new Card)->get();
+        return view('transfer.topup', ['topup'=>1, 'cards'=>$cards]);
+    }
+
+    public function chargeTopup(TopupRequest $request)
+    {
+        $validated = $request->validated();
+
+        $card = (new Card)->find($validated['card_id']);
+        $data = [
+            'amount'=>$validated['amount']*100,
+            'email'=>Auth::user()->email,
+            'authorization_code'=>$card->auth_code,
+            'reference' => (new Transfer)->generateRef(11)
+        ];
+
+        $response = $this->paystackApi->chargeCard($data);
+
+        if (array_key_exists('data', $response) && $response['data']['status'] === 'success') {
+            Cache::pull('balance');
+            return redirect()->route('transfer.topup')->with('success', $response['message']);
+        }
+
+        return redirect()->route('transfer.topup')->with('error', $response['message']);
     }
 
 

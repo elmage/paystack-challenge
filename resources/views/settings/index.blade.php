@@ -39,7 +39,7 @@
                                             <ul class="tabs" id="settings-tab">
                                                 <li class="tab col m3"><a href="#profile">Profile</a></li>
                                                 <li class="tab col m3"><a href="#preferences" class="{{ session('finalize_otp') || session('preference') ? 'active':'' }}">Preferences</a></li>
-                                                <li class="tab col m3"><a href="#topup">Top Up</a></li>
+                                                <li class="tab col m3"><a href="#password">Change Password</a></li>
                                             </ul>
                                         </div>
                                         <div id="profile" class="col s12 m8 offset-m2 padding-2">
@@ -106,53 +106,39 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="topup" class="col s12 m8 offset-m2 padding-2">
-                                            <p class="center">To top up your Paystack balance, add a card below.</p>
-
-                                            @if($cards->isEmpty())
+                                        <div id="password" class="col s12 m8 offset-m2 padding-2">
+                                            <form class="col s12 m10 offset-m1" action="{{ route('password.update') }}" method="post">
+                                                @csrf
+                                                @method('patch')
                                                 <div class="row">
-                                                    <div class="col s12 m6 offset-m3">
-                                                        <form >
-                                                            <script src="https://js.paystack.co/v1/inline.js"></script>
-
-                                                            <a href="#" onclick="payWithPaystack()">
-                                                                <div class="card gradient-45deg-light-blue-cyan" style="height: 200px; border: 1px dashed rgba(0,0,0,0.3)">
-                                                                    <div class="card-content white-text center">
-                                                                        <h6 class="card-title font-weight-400"></h6>
-                                                                        <p><strong></strong> <br /> <small></small></p>
-                                                                    </div>
-
-                                                                    <div class="card-action center">
-                                                                        <p class="" style="margin-top: -20px;">
-                                                                            <i class="material-icons" style="font-size: 50px; color: white;">add_circle_outline</i>
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </a>
-                                                            <small class="text-info center"><i class="fa fa-info"></i> Adding a card attracts a fee of {{currency()}}50. (Don't panic, the money goes to YOUR paystack balance ;))</small>
-                                                        </form>
+                                                    <div class="input-field col s12">
+                                                        <input type="password" id="fn" name="current_password" value="" required>
+                                                        <label for="fn">Current Password</label>
                                                     </div>
                                                 </div>
-                                            @else
                                                 <div class="row">
-                                                    @foreach($cards as $card)
-                                                    <div class="col s12 m6">
-                                                        <div class="card gradient-45deg-light-blue-cyan" style="height: 200px; border: 1px dashed rgba(0,0,0,0.3)">
-                                                            <div class="card-content white-text center">
-                                                                <h6 class="card-title font-weight-400"></h6>
-                                                                <p><strong></strong> <br /> <small></small></p>
-                                                            </div>
-
-                                                            <div class="card-action ">
-                                                                <h6 class="" style="margin-top: -15px;font-size: 20px;color: #ddd;">{{$card->bin}}******{{ $card->last_4 }}</h6>
-                                                            </div>
+                                                    <div class="input-field col s12">
+                                                        <input id="pass" type="password" name="password" value="" required>
+                                                        <label for="pass">New Password</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-field col s12">
+                                                        <input id="pass-confirm" type="password" name="password_confirmation" value="" required>
+                                                        <label for="pass-confirm">Confirm Password</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="row">
+                                                        <div class="input-field col s12">
+                                                            <button class="btn cyan waves-effect waves-light right" type="submit" name="action">Update
+                                                                <i class="material-icons right">send</i>
+                                                            </button>
                                                         </div>
                                                     </div>
-                                                    @endforeach
                                                 </div>
-                                            @endif
+                                            </form>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>

@@ -16,7 +16,6 @@
                             <li class="breadcrumb-item active">Enter OTP</li>
                         </ol>
                     </div>
-                    @include('fragments.transfer_button')
                 </div>
             </div>
         </div>
@@ -44,6 +43,7 @@
                                                 <input type="hidden" name="transfer_code" value="{{ $transfer->transfer_code }}">
                                                 <input id="otp" name="otp" type="number" required>
                                                 <label for="otp">Enter the otp sent to your phone/email.</label>
+                                                <a href="javascript:void(0)" onclick="resendOtp('{{$transfer->transfer_code}}')">Resend OTP</a>
                                             </div>
 
                                             <div class="input-field col m6 s12">
@@ -66,5 +66,15 @@
 
 @section('page_scripts')
     <script src="{{ asset('js/scripts/form-layouts.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        function resendOtp(code) {
+            $.post('/transfer/single/resend-otp', {transfer_code: code,reason:'transfer',_token:'{{csrf_token()}}'}, function (response) {
+                ///swal('Success!', response.message, 'success');
+                M.toast({
+                    html: response.message
+                })
+            });
+        }
+    </script>
 @endsection
 

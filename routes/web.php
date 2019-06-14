@@ -33,9 +33,12 @@ Route::group(['middleware'=>['auth']], function () {
     //Transfer Route
     Route::get('/transfer/all', 'Transfer\TransferController@index')->name('transfers');
     Route::get('/transfer/single', 'Transfer\TransferController@single')->name('transfer.single');
+    Route::get('/balance/topup', 'Transfer\TransferController@topup')->name('transfer.topup');
+    Route::post('/balance/topup/charge', 'Transfer\TransferController@chargeTopup')->name('transfer.topup.charge');
     Route::post('/transfer/single/make', 'Transfer\TransferController@singleTransfer')->name('transfer.single.make');
     Route::get('/transfer/single/otp/{transfer}', 'Transfer\TransferController@enterOtp')->name('transfer.single.enter_otp')->where('transfer', '[0-9]+');
     Route::post('/transfer/single/otp', 'Transfer\TransferController@sendOtp')->name('transfer.single.send_otp');
+    Route::post('/transfer/single/resend-otp', 'Transfer\TransferController@resendOtp')->name('transfer.single.resend_otp');
 
     Route::get('/transfer/get/accounts/{supplier}', 'Transfer\TransferController@getAccountsForSupplier')->where('supplier', '[0-9]+');
 
@@ -43,6 +46,7 @@ Route::group(['middleware'=>['auth']], function () {
 
     Route::get('/settings', 'SettingController@index')->name('settings');
     Route::patch('/settings/profile/update', 'SettingController@updateProfile')->name('profile.update');
+    Route::patch('/settings/password/update', 'SettingController@updatePassword')->name('password.update');
     Route::post('/settings/profile/enable', 'SettingController@enableOtp')->name('otp.enable');
     Route::post('/settings/otp/disable', 'SettingController@disableOtp')->name('otp.disable');
     Route::post('/settings/otp/disable/finalize', 'SettingController@finalizeDisableOtp')->name('otp.disable.finalize');
@@ -50,4 +54,5 @@ Route::group(['middleware'=>['auth']], function () {
 
     //Card
     Route::post('/card/add/{ref}', 'Transfer\CardController@add')->name('card.add');
+    Route::post('/card/remove', 'Transfer\CardController@remove')->name('card.remove');
 });

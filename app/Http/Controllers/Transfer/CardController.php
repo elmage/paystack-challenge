@@ -52,4 +52,14 @@ class CardController extends Controller
 
         return response()->json(['state'=>'error','msg'=>'Could not add card: ' . $tranx->message]);
     }
+
+    public function remove(Request $request, Card $card) {
+        $this->validate($request, [
+            'id'=>'required|integer|exists:cards,id'
+        ]);
+
+        $card->destroy($request->id);
+
+        return redirect()->back()->with('success', 'Your card was removed.');
+    }
 }

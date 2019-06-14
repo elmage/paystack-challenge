@@ -17,10 +17,13 @@ class PaystackApi
         'resolve_account' => '/bank/resolve?account_number=%s&bank_code=%s',
         'transfer'=>'/transfer',
         'finalize_transfer'=>'/transfer/finalize_transfer',
+        'resend_otp'=>'/transfer/resend_otp',
         'enable_otp'=>'/transfer/enable_otp',
         'disable_otp'=>'/transfer/disable_otp',
         'finalize_disable_otp'=>'/transfer/disable_otp_finalize',
-        'verify_transaction'=>'/transaction/verify/%s'
+        'verify_transaction'=>'/transaction/verify/%s',
+        'charge_card'=>'/transaction/charge_authorization',
+        'balance'=>'/balance'
     ];
 
     protected $base_uri = 'https://api.paystack.co';
@@ -78,6 +81,8 @@ class PaystackApi
 
     /**
      * Resolve account number
+     * @param $account_number
+     * @param $bank_code
      * @return array
      */
     public function resolveAccount($account_number, $bank_code)
@@ -101,6 +106,11 @@ class PaystackApi
 
     }
 
+    /**
+     * Create a transfer recipient
+     * @param array $data
+     * @return array|mixed
+     */
     public function createRecipient(array $data)
     {
         $options = [
@@ -119,6 +129,12 @@ class PaystackApi
         }
     }
 
+    /**
+     * Update a transfer recipient
+     * @param $recipient_code
+     * @param array $data
+     * @return array|mixed
+     */
     public function updateRecipient($recipient_code, array $data) {
         $options = [
             'headers' => $this->headers,
@@ -136,6 +152,12 @@ class PaystackApi
         }
     }
 
+    /**
+     * Delete a transfer recipient
+     * @param $recipient_code
+     * @param array $data
+     * @return array|mixed
+     */
     public function deleteRecipient($recipient_code, array $data=[]) {
         $options = [
             'headers' => $this->headers,
@@ -153,9 +175,11 @@ class PaystackApi
         }
     }
 
-
-
-
+    /**
+     * Send a single transfer request
+     * @param array $data
+     * @return array|mixed
+     */
     public function makeSingeTransfer(array $data)
     {
         $options = [
@@ -176,7 +200,13 @@ class PaystackApi
         }
     }
 
-    public function sendTransferOTP(array $data) {
+    /**
+     * Finalize transaction with OTP request
+     * @param array $data
+     * @return array|mixed
+     */
+    public function sendTransferOTP(array $data)
+    {
         $options = [
             'headers' => $this->headers,
             'body' => json_encode($data)
@@ -194,7 +224,28 @@ class PaystackApi
 
     }
 
+    public function resendTransferOtp(array $data)
+    {
+        $options = [
+            'headers' => $this->headers,
+            'body' => json_encode($data)
+        ];
 
+        try {
+
+            $request = $this->client->post($this->endpoints['resend_otp'], $options);
+            $response = json_decode($request->getBody()->getContents(), true);
+            return $response;
+
+        } catch (RequestException $exception) {
+            return $this->StatusCodeHandling($exception);
+        }
+    }
+
+    /**
+     * Enable transfer confirmation - OTP
+     * @return array|mixed
+     */
     public function enableOtp() {
         $options = [
             'headers' => $this->headers,
@@ -209,7 +260,10 @@ class PaystackApi
         }
     }
 
-
+    /**
+     * Disable transfer confirmation - OTP
+     * @return array|mixed
+     */
     public function disableOtp() {
         $options = [
             'headers' => $this->headers,
@@ -224,6 +278,11 @@ class PaystackApi
         }
     }
 
+    /**
+     * Confirm disable OTP
+     * @param array $data
+     * @return array|mixed
+     */
     public function finalizeDisableOtp(array $data) {
         $options = [
             'headers' => $this->headers,
@@ -239,7 +298,11 @@ class PaystackApi
         }
     }
 
-
+    /**
+     * Verify a transaction
+     * @param $ref
+     * @return array|mixed
+     */
     public function verifyTransaction($ref) {
         $options = [
             'headers' => $this->headers
@@ -254,7 +317,49 @@ class PaystackApi
         }
     }
 
+    /**
+     * Charge card with auth code
+     * @param array $data
+     * @return array|mixed
+     */
+    public function chargeCard(array $data)
+    {
+        $options = [
+            'headers' => $this->headers,
+            'body' => json_encode($data)
+        ];
 
+        try {
+            $request = $this->client->post($this->endpoints['charge_card'], $options);
+            $response = json_decode($request->getBody()->getContents(), true);
+            return $response;
+        } catch (RequestException $exception) {
+            return $this->StatusCodeHandling($exception);
+        }
+    }
+
+
+    public function getBalance()
+    {
+        $options = [
+            'headers' => $this->headers
+        ];
+
+        try {
+            $request = $this->client->get($this->endpoints['balance'], $options);
+            $response = json_decode($request->getBody()->getContents(), true);
+            return $response;
+        } catch (RequestException $exception) {
+            return $this->StatusCodeHandling($exception);
+        }
+    }
+
+
+    /**
+     * Handle API Exception
+     * @param RequestException $exception
+     * @return array
+     */
     private function StatusCodeHandling(RequestException $exception)
     {
         $code = $exception->getResponse() ? $exception->getResponse()->getStatusCode() : 0;
