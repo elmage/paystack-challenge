@@ -32,7 +32,7 @@ class ProcessScheduledTransfers implements ShouldQueue
     public function __construct($frequency)
     {
         $this->frequency = $frequency;
-        // $this->card = (new Card)->where('primary', 1)->first();
+        $this->card = (new Card)->where('primary', 1)->first();
         Cache::pull('balance'); Cache::pull('raw_balance');
         try {
             $this->otp_status = cache('otp_status');
