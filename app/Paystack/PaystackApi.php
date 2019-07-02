@@ -15,15 +15,15 @@ class PaystackApi
         'create_recipient' => '/transferrecipient',
         'update_recipient' => '/transferrecipient/%s',
         'resolve_account' => '/bank/resolve?account_number=%s&bank_code=%s',
-        'transfer'=>'/transfer',
-        'finalize_transfer'=>'/transfer/finalize_transfer',
-        'resend_otp'=>'/transfer/resend_otp',
-        'enable_otp'=>'/transfer/enable_otp',
-        'disable_otp'=>'/transfer/disable_otp',
-        'finalize_disable_otp'=>'/transfer/disable_otp_finalize',
-        'verify_transaction'=>'/transaction/verify/%s',
-        'charge_card'=>'/transaction/charge_authorization',
-        'balance'=>'/balance'
+        'transfer' => '/transfer',
+        'finalize_transfer' => '/transfer/finalize_transfer',
+        'resend_otp' => '/transfer/resend_otp',
+        'enable_otp' => '/transfer/enable_otp',
+        'disable_otp' => '/transfer/disable_otp',
+        'finalize_disable_otp' => '/transfer/disable_otp_finalize',
+        'verify_transaction' => '/transaction/verify/%s',
+        'charge_card' => '/transaction/charge_authorization',
+        'balance' => '/balance'
     ];
 
     protected $base_uri = 'https://api.paystack.co';
@@ -73,7 +73,7 @@ class PaystackApi
 
         } catch (RequestException $exception) {
 
-            return $this->StatusCodeHandling($exception);
+            return $this->statusCodeHandling($exception);
 
         }
 
@@ -100,7 +100,7 @@ class PaystackApi
 
         } catch (RequestException $exception) {
 
-            return $this->StatusCodeHandling($exception);
+            return $this->statusCodeHandling($exception);
 
         }
 
@@ -125,7 +125,7 @@ class PaystackApi
             return $response;
 
         } catch (RequestException $exception) {
-            return $this->StatusCodeHandling($exception);
+            return $this->statusCodeHandling($exception);
         }
     }
 
@@ -148,7 +148,7 @@ class PaystackApi
             return $response;
 
         } catch (RequestException $exception) {
-            return $this->StatusCodeHandling($exception);
+            return $this->statusCodeHandling($exception);
         }
     }
 
@@ -171,7 +171,7 @@ class PaystackApi
             return $response;
 
         } catch (RequestException $exception) {
-            return $this->StatusCodeHandling($exception);
+            return $this->statusCodeHandling($exception);
         }
     }
 
@@ -196,7 +196,7 @@ class PaystackApi
             return $response;
 
         } catch (RequestException $exception) {
-            return $this->StatusCodeHandling($exception);
+            return $this->statusCodeHandling($exception);
         }
     }
 
@@ -219,7 +219,7 @@ class PaystackApi
             return $response;
 
         } catch (RequestException $exception) {
-            return $this->StatusCodeHandling($exception);
+            return $this->statusCodeHandling($exception);
         }
 
     }
@@ -238,7 +238,7 @@ class PaystackApi
             return $response;
 
         } catch (RequestException $exception) {
-            return $this->StatusCodeHandling($exception);
+            return $this->statusCodeHandling($exception);
         }
     }
 
@@ -256,7 +256,7 @@ class PaystackApi
             $response = json_decode($request->getBody()->getContents(), true);
             return $response;
         } catch (RequestException $exception) {
-            return $this->StatusCodeHandling($exception);
+            return $this->statusCodeHandling($exception);
         }
     }
 
@@ -274,7 +274,7 @@ class PaystackApi
             $response = json_decode($request->getBody()->getContents(), true);
             return $response;
         } catch (RequestException $exception) {
-            return $this->StatusCodeHandling($exception);
+            return $this->statusCodeHandling($exception);
         }
     }
 
@@ -294,7 +294,7 @@ class PaystackApi
             $response = json_decode($request->getBody()->getContents(), true);
             return $response;
         } catch (RequestException $exception) {
-            return $this->StatusCodeHandling($exception);
+            return $this->statusCodeHandling($exception);
         }
     }
 
@@ -313,7 +313,7 @@ class PaystackApi
             $response = json_decode($request->getBody()->getContents());
             return $response;
         } catch (RequestException $exception) {
-            return $this->StatusCodeHandling($exception);
+            return $this->statusCodeHandling($exception);
         }
     }
 
@@ -334,7 +334,7 @@ class PaystackApi
             $response = json_decode($request->getBody()->getContents(), true);
             return $response;
         } catch (RequestException $exception) {
-            return $this->StatusCodeHandling($exception);
+            return $this->statusCodeHandling($exception);
         }
     }
 
@@ -350,7 +350,7 @@ class PaystackApi
             $response = json_decode($request->getBody()->getContents(), true);
             return $response;
         } catch (RequestException $exception) {
-            return $this->StatusCodeHandling($exception);
+            return $this->statusCodeHandling($exception);
         }
     }
 
@@ -360,7 +360,7 @@ class PaystackApi
      * @param RequestException $exception
      * @return array
      */
-    private function StatusCodeHandling(RequestException $exception)
+    private function statusCodeHandling(RequestException $exception)
     {
         $code = $exception->getResponse() ? $exception->getResponse()->getStatusCode() : 0;
 
