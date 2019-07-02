@@ -4,6 +4,7 @@ namespace App\Paystack;
 
 
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Http\Response;
 
 class PaystackApi
@@ -45,12 +46,12 @@ class PaystackApi
 
     public function __construct()
     {
-        $this->client = new \GuzzleHttp\Client(['base_uri'=>$this->base_uri]);
+        $this->client = new GuzzleClient(['base_uri' => $this->base_uri]);
 
         $this->headers = [
             'Cache-Control'=>'no-cache',
             'Content-type' => 'application/json',
-            'Authorization'=>' Bearer '.env('PAYSTACK_SK')
+            'Authorization'=>' Bearer '.config('paystack.secret_key')
         ];
     }
 

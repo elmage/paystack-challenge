@@ -171,7 +171,7 @@
     <script>
         function payWithPaystack() {
             var handler = PaystackPop.setup({
-                key: '{{ env('PAYSTACK_PK') }}',
+                key: '{{ config('paystack.public_key') }}',
                 email: '{{ Auth::user()->email  }}',
                 amount: {{ 5000 }},
                 currency: "NGN",
